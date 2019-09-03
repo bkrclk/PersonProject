@@ -1,0 +1,31 @@
+﻿<Window x:Class="Presantation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Presantation"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="400" Width="300">
+    <Grid>
+        <Button x:Name="addUser" Width="80" Height="30" Content="Kullanıcı Ekle" Margin="54,10,58,229" Click="btnAddUser_Click"  />
+
+        <!--<ListView Name="List1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="id="/>
+                        <TextBlock Text="{Binding id}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>-->
+        <DataGrid x:Name="GridList" x:FieldModifier="public" AutoGenerateColumns="False" ColumnWidth="*" >
+            
+        <!--<DataGrid.Columns header="id" Binding="{id}-->
+        </DataGrid>
+        
+        
+    </Grid>
+  
+</Window>
