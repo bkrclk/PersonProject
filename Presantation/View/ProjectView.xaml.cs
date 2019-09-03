@@ -29,12 +29,10 @@ namespace Presantation.View
         public ProjectView()
         {
             
-            projectViewModel = new ProjectViewModel(this);
+            projectViewModel = new ProjectViewModel();
             InitializeComponent();
         
             this.DataContext = projectViewModel;
-
-           
         }
 
         public void Dispose()

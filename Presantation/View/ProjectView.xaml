@@ -30,9 +30,9 @@
             <ListView.View>
                 <GridView>
                     <!--<GridViewColumn Header="id" DisplayMemberBinding="{Binding id}" />-->
-                    <GridViewColumn Header="username" DisplayMemberBinding="{Binding username}" />
-                    <GridViewColumn Header="password" DisplayMemberBinding="{Binding password}" />
-                    <GridViewColumn Header="name" DisplayMemberBinding="{Binding name}" />
+                    <GridViewColumn Header="username" DisplayMemberBinding="{Binding Username}" Width="Auto" />
+                    <GridViewColumn Header="password" DisplayMemberBinding="{Binding Password}"  Width="Auto" />
+                    <GridViewColumn Header="name" DisplayMemberBinding="{Binding Name}"  Width="Auto"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -42,8 +42,8 @@
         <ListView SelectedItem="{Binding SelectedProject}" ItemsSource="{Binding ProjectViewList}" HorizontalAlignment="Left" Margin="512,83,0,0" VerticalAlignment="Top" Width="135" Height="136">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="id" DisplayMemberBinding="{Binding id}" />
-                    <GridViewColumn Header="name" DisplayMemberBinding="{Binding name}" />
+                    <!--<GridViewColumn Header="id" DisplayMemberBinding="{Binding Id}"  Width="Auto"/>-->
+                    <GridViewColumn Header="name" DisplayMemberBinding="{Binding Name}"  Width="Auto" />
                 </GridView>
             </ListView.View>
         </ListView>

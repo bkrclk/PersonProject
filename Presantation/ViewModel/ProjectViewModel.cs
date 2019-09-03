@@ -1,4 +1,5 @@
 ﻿using PersonClassLibrary.Models;
+using Presantation.Helper;
 using Presantation.View;
 using Presantation.ViewModel.Commands;
 using System;
@@ -14,16 +15,33 @@ using System.Windows.Input;
 
 namespace Presantation.ViewModel
 {
+    /// <summary>
+    /// Kullanıcı ve Projelerin Listelendiği View Model
+    /// </summary>
     public class ProjectViewModel
     {
 
         #region Members
 
-        private ProjectView projectView;
+        private DatabaseHelper databaseHelper;
 
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Database İşlemlerini Gerçekleştiren Sınıfı Çağıran Properties
+        /// </summary>
+        public DatabaseHelper DatabaseHelper
+        {
+            get
+            {
+                if (databaseHelper == null)
+                    databaseHelper = new DatabaseHelper();
+                return databaseHelper;
+            }
+
+            set { databaseHelper = value; }
+        }
 
         public ObservableCollection<User> UserViewList { get; set; }
 
@@ -38,30 +56,46 @@ namespace Presantation.ViewModel
         #region Constructors
 
         /// <summary>
-        /// Constructors Metodu
+        /// Sınıf Oluşturulğunda ilk Çalışan Metod
         /// </summary>
-        /// <param name="projectView"></param>
-        public ProjectViewModel(ProjectView projectView)
+        public ProjectViewModel()
         {
-            UserViewList = SelectUser();
-            ProjectViewList = SelectProject();
-            this.projectView = projectView;
+            UserViewList = DatabaseHelper.GetUserList();
+            ProjectViewList = DatabaseHelper.GetProjectList();
         }
 
         #endregion
 
         #region ICommand
 
+        /// <summary>
+        /// UserView Formunu tetikleyen Command
+        /// </summary>
         private ICommand gotoUserView;
 
+        /// <summary>
+        /// ProjectView Formunu tetikleyen Command
+        /// </summary>
         private ICommand gotoProjectView;
 
+        /// <summary>
+        /// User Listesini UserView Formuna Göndermesini tetikleyen Command
+        /// </summary>
         private ICommand getUserListItem;
 
+        /// <summary>
+        /// User Listesinden Silme İşlemini Tetikleyen Command
+        /// </summary>
         private ICommand deleteUserListItem;
 
+        /// <summary>
+        /// Project Listesini UserView Formuna Göndermesini tetikleyen Command
+        /// </summary>
         private ICommand getProjectListItem;
 
+        /// <summary>
+        /// Project Listesinden Silme İşlemini Tetikleyen Command
+        /// </summary>
         private ICommand deleteProjectListItem;
 
         #endregion
@@ -117,7 +151,7 @@ namespace Presantation.ViewModel
             get
             {
                 if (deleteUserListItem == null)
-                    deleteUserListItem = new RelayCommand(DeleteUser);
+                    deleteUserListItem = new RelayCommand(UserDelete);
                 return deleteUserListItem;
             }
 
@@ -128,7 +162,7 @@ namespace Presantation.ViewModel
             get
             {
                 if (deleteProjectListItem == null)
-                    deleteProjectListItem = new RelayCommand(DeleteProject);
+                    deleteProjectListItem = new RelayCommand(ProjectDelete);
                 return deleteProjectListItem;
             }
 
@@ -138,105 +172,49 @@ namespace Presantation.ViewModel
 
         #region Methods
 
-        public ObservableCollection<User> SelectUser()
-        {
-
-            ObservableCollection<User> ulist = new ObservableCollection<User>();
-            User user;
-
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
-
-            SQLiteConnection sqlitecon;
-            SQLiteCommand sqlitecmd;
-            sqlitecon = new SQLiteConnection(cs);
-            sqlitecon.Open();
-
-            sqlitecmd = sqlitecon.CreateCommand();
-            sqlitecmd.CommandText = "Select * from user";
-            SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
-            while (sqlitedr.Read())
-            {
-                user = new User
-                {
-                    id = Convert.ToInt32(sqlitedr["id"]),
-                    username = sqlitedr["username"].ToString(),
-                    password = sqlitedr["password"].ToString(),
-                    name = sqlitedr["name"].ToString()
-
-                };
-
-                ulist.Add(user);
-            }
-            sqlitecon.Close();
-
-            return ulist;
-        }
-
-        public ObservableCollection<Project> SelectProject()
-        {
-            ObservableCollection<Project> plist = new ObservableCollection<Project>();
-            Project project;
-
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
-
-            SQLiteConnection sqlitecon;
-            SQLiteCommand sqlitecmd;
-            sqlitecon = new SQLiteConnection(cs);
-            sqlitecon.Open();
-
-            sqlitecmd = sqlitecon.CreateCommand();
-            sqlitecmd.CommandText = "Select * from project";
-            SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
-            while (sqlitedr.Read())
-            {
-                project = new Project
-                {
-
-                    id = Convert.ToInt32(sqlitedr["id"]),
-                    name = sqlitedr["name"].ToString()
-
-                };
-
-                plist.Add(project);
-            }
-            sqlitecon.Close();
-
-            return plist;
-        }
-
+        /// <summary>
+        /// Kullanıcı Formunu Getiren Metod
+        /// </summary>       
         public void GotoUser()
         {
 
-            using (AddUserView adv = new AddUserView())
+            using (AddUserView addUserView = new AddUserView())
             {
-                adv.addUserViewModel.ProjectViewModel = this;
-                adv.Show();
+
+                addUserView.addUserViewModel.ProjectViewModel = this;
+                addUserView.Show();
 
             }
         }
 
+        /// <summary>
+        /// Proje Formunu Getiren Metod
+        /// </summary>
         public void GotoProject()
         {
 
-            //projectView.Hide();
-            using (AddProjectView apv = new AddProjectView())
+            using (AddProjectView addProjectView = new AddProjectView())
             {
-                apv.addProjectViewModel.ProjectViewModel = this;
-                apv.Show();
+                addProjectView.addProjectViewModel.ProjectViewModel = this;
+
+                addProjectView.Show();
 
             }
 
         }
 
+        /// <summary>
+        /// ProjectView daki User Listesini UpdateUserView Formuna Gönderen Metod
+        /// </summary>
         public void GetUserDetail()
         {
 
             if (SelectedUser != null)
             {
-                //MessageBox.Show(SelectedUser.id + " - " + SelectedUser.username + " - " + SelectedUser.password + " - " + SelectedUser.name);
+
                 using (UpdateUserView updateUserView = new UpdateUserView())
                 {
-                    updateUserView.updateUserViewModel.UpdateUser = SelectedUser;
+                    updateUserView.updateUserViewModel.UserGetAll = SelectedUser;
                     updateUserView.updateUserViewModel.ProjectViewModel = this;
                     updateUserView.Show();
 
@@ -250,16 +228,18 @@ namespace Presantation.ViewModel
 
         }
 
+        /// <summary>
+        /// ProjectView daki Project Listesini UpdateProjectView Formuna Gönderen Metod
+        /// </summary>
         public void GetProjectDetail()
         {
 
             if (SelectedProject != null)
             {
-                MessageBox.Show(SelectedProject.id + " - " + SelectedProject.name);
-
+                
                 using (UpdateProjectView updateProjectView = new UpdateProjectView())
                 {
-                    updateProjectView.updateProjectViewModel.UpdateProject = SelectedProject;
+                    updateProjectView.updateProjectViewModel.ProjectGetAll = SelectedProject;
                     updateProjectView.updateProjectViewModel.ProjectViewModel = this;
                     updateProjectView.Show();
 
@@ -272,61 +252,40 @@ namespace Presantation.ViewModel
 
         }
 
-        public void DeleteUser()
+
+        /// <summary>
+        /// Proje Silme İşlemnini Gerçekleştiren Metod
+        /// </summary>
+        public void ProjectDelete()
         {
-            if (SelectedUser != null)
-            {
-                string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
-
-                SQLiteConnection sqlitecon;
-                SQLiteCommand sqlitecmd;
-                sqlitecon = new SQLiteConnection(cs);
-                sqlitecon.Open();
-
-                sqlitecmd = sqlitecon.CreateCommand();
-                sqlitecmd.CommandText = "delete from user where id ='" + SelectedUser.id + "'";
-                SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
-
-                sqlitecon.Close();
-
-                MessageBox.Show("Silindi");
-
-                UserViewList.Remove(SelectedUser);
-            }
-            else
-            {
-                MessageBox.Show("Please Select User..");
-            }
-        }
-
-        public void DeleteProject()
-        {
-
-
             if (SelectedProject != null)
             {
-                string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
-
-                SQLiteConnection sqlitecon;
-                SQLiteCommand sqlitecmd;
-                sqlitecon = new SQLiteConnection(cs);
-                sqlitecon.Open();
-
-                sqlitecmd = sqlitecon.CreateCommand();
-                sqlitecmd.CommandText = "delete from project where id ='" + SelectedProject.id + "'";
-                SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
-
-
-                sqlitecon.Close();
-
-                MessageBox.Show("Silindi");
-
+                DatabaseHelper.DeleteProject(SelectedProject);
+                MessageBox.Show("Deleted..");
                 ProjectViewList.Remove(SelectedProject);
             }
             else
             {
                 MessageBox.Show("Please Select Project..");
             }
+        }
+
+        /// <summary>
+        /// User Silme İşlemnini Gerçekleştiren Metod
+        /// </summary>
+        public void UserDelete()
+        {
+            if (SelectedUser != null)
+            {
+                DatabaseHelper.DeleteUser(SelectedUser);
+                MessageBox.Show("Deleted..");
+                UserViewList.Remove(SelectedUser);
+            }
+            else
+            {
+                MessageBox.Show("Please Select User..");
+            }
+
         }
 
         #endregion

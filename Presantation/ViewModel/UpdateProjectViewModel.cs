@@ -1,4 +1,5 @@
 ﻿using PersonClassLibrary.Models;
+using Presantation.Helper;
 using Presantation.View;
 using Presantation.ViewModel.Commands;
 using System;
@@ -13,47 +14,77 @@ using System.Windows.Input;
 
 namespace Presantation.ViewModel
 {
-    public class UpdateProjectViewModel
+    public class UpdateProjectViewModel: INotifyPropertyChanged
     {
-        private ICommand projectUpdateCommand;
+        
+        #region Members
+
         private UpdateProjectView updateProjectView;
+        
+        private DatabaseHelper databaseHelper;
+
+        private Project projectGetAll;
+
+        #endregion
+
+        #region Properties
+
         public ProjectViewModel ProjectViewModel { get; set; }
 
+        /// <summary>
+        /// Database İşlemlerini Gerçekleştiren Sınıfı Çağıran Properties
+        /// </summary>
+        public DatabaseHelper DatabaseHelper
+        {
+            get
+            {
+                if (databaseHelper == null)
+                    databaseHelper = new DatabaseHelper();
+                return databaseHelper;
+            }
 
+            set { databaseHelper = value; }
+        }
+
+        /// <summary>
+        /// Proje Ekleme ve Güncelleme Formundaki Textboxların Verilerini Çeken Properties
+        /// </summary>
+        public Project ProjectGetAll
+        {
+            get { return projectGetAll; }
+            set
+            {
+                projectGetAll = value;
+                NotifyPropertyChanged(nameof(ProjectGetAll));
+            }
+        }
+
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Sınıf Oluşturulğunda ilk Çalışan Metod
+        /// </summary>
         public UpdateProjectViewModel(UpdateProjectView updateProjectView)
         {
             this.updateProjectView = updateProjectView;
             updateProjectView.Closing += updateList;
 
         }
-        private void updateList(object sender, CancelEventArgs e)
-        {
 
-            foreach (var item in ProjectViewModel.ProjectViewList)
-            {
-                if (item.id == UpdateProject.id)
-                {
-                    item.name = UpdateProject.name;
-                }
-            }
-        }
+        #endregion
 
-        private Project updateProject;
+        #region ICommand
+        /// <summary>
+        /// UpdateProjectView Formunu tetikleyen Command
+        /// </summary>
+        private ICommand projectUpdateCommand;
 
-        public Project UpdateProject
-        {
-            get { return updateProject; }
-            set
-            {
-                updateProject = value;
-                NotifyPropertyChanged(nameof(UpdateProject));
-            }
-        }
+        #endregion
 
+        #region Command
 
-
-
-        public ICommand UserUpdateCommand
+        public ICommand ProjectUpdateCommand
         {
             get
             {
@@ -63,32 +94,47 @@ namespace Presantation.ViewModel
             }
 
         }
-        
+
+        #endregion
+
+        #region Event
+        /// <summary>
+        /// Tüm İşlemleri Gerçekleştiresini Tetikleyen Event
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region Metod
+        /// <summary>
+        /// ProjectView Formundaki ProjectViewList Listesinde Güncelleme Yapan Metod
+        /// </summary>
+        private void updateList(object sender, CancelEventArgs e)
+        {
+
+            foreach (var item in ProjectViewModel.ProjectViewList)
+            {
+                if (item.Id == ProjectGetAll.Id)
+                {
+                    item.Name = ProjectGetAll.Name;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Proje Güncelleme İşlemini Gerçekleştiren Metod
+        /// </summary>
         public void Update()
         {
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
-
-            SQLiteConnection sqlitecon;
-            SQLiteCommand sqlitecmd;
-            sqlitecon = new SQLiteConnection(cs);
-            sqlitecon.Open();
-
-            sqlitecmd = sqlitecon.CreateCommand();
-
-
-            sqlitecmd.CommandText = "update project set name='" + UpdateProject.name + "' where id ='" + UpdateProject.id + "'";
-            SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
-
-
-            sqlitecon.Close();
-
+            DatabaseHelper.ProjectUpdate(ProjectGetAll);
             MessageBox.Show("Updated..");
             updateProjectView.Close();
 
-
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Tüm İşlemlerin Gerçekleşmesini Tetiklenmesini Sağlayan Metod
+        /// </summary>
         protected void NotifyPropertyChanged(string info)
         {
             if (PropertyChanged != null)
@@ -98,6 +144,8 @@ namespace Presantation.ViewModel
         }
 
 
+        #endregion
+        
     }
 
 }

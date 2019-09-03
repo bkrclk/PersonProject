@@ -1,4 +1,5 @@
 ﻿using PersonClassLibrary.Models;
+using Presantation.Helper;
 using Presantation.View;
 using Presantation.ViewModel.Commands;
 using System;
@@ -14,32 +15,80 @@ using System.Windows.Input;
 
 namespace Presantation.ViewModel
 {
-  
-    public class AddProjectViewModel
+    public class AddProjectViewModel : INotifyPropertyChanged
     {
-        private ICommand projectCommand;
+        #region Members
+
         private AddProjectView addProjectView;
+
+        private DatabaseHelper databaseHelper;
+
+        private Project projectGetAll;
+
+        #endregion
+
+        #region Properties
+
         public ProjectViewModel ProjectViewModel { get; set; }
 
+        /// <summary>
+        /// Database İşlemlerini Gerçekleştiren Sınıfı Çağıran Properties
+        /// </summary>
+        public DatabaseHelper DatabaseHelper
+        {
+            get
+            {
+                if (databaseHelper == null)
+                    databaseHelper = new DatabaseHelper();
+                return databaseHelper;
+            }
+
+            set { databaseHelper = value; }
+        }
+
+        /// <summary>
+        /// Proje Ekleme ve Güncelleme Formundaki Textboxların Verilerini Çeken Properties
+        /// </summary>
+        public Project ProjectGetAll
+        {
+            get
+            {
+                if (projectGetAll == null)
+                    projectGetAll = new Project();
+                return projectGetAll;
+            }
+            set
+            {
+                projectGetAll = value;
+                NotifyPropertyChanged(nameof(ProjectGetAll));
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Sınıf Oluşturulğunda ilk Çalışan Metod
+        /// </summary>
+        #region Constructor
 
         public AddProjectViewModel(AddProjectView addProjectView)
         {
-       
+
             this.addProjectView = addProjectView;
             addProjectView.Closing += addlist;
         }
 
-        private void addlist(object sender, CancelEventArgs e)
-        {
-            ProjectViewModel.ProjectViewList.Add(new Project {
+        #endregion
 
-                name = TbProjectName
-                
-            });
-        }
+        #region ICommand
+        /// <summary>
+        /// AddProjectView Formunu tetikleyen Command
+        /// </summary>
+        private ICommand projectCommand;
 
+        #endregion
 
-        
+        #region Command
 
         public ICommand ProjectCommand
         {
@@ -50,39 +99,43 @@ namespace Presantation.ViewModel
                 return projectCommand;
             }
         }
-        private string projectname;
-        public string TbProjectName
-        {
-            get { return projectname; }
-            set { projectname = value; NotifyPropertyChanged(nameof(TbProjectName)); }
-        }
 
-        private void SaveProject()
-        {
-            SQLiteConnection sqlitecon;
-            SQLiteCommand sqlitecmd;
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
+        #endregion
 
-            sqlitecon = new SQLiteConnection(cs);
-            sqlitecon.Open();
-
-            sqlitecmd = sqlitecon.CreateCommand();
-            sqlitecmd.CommandText = "insert into project (name) values('" + projectname + "')";
-            sqlitecmd.ExecuteNonQuery();
-            
-            sqlitecon.Close();
-
-            MessageBox.Show("Kayıt Eklendi");
-
-
-            addProjectView.Close();
-         
-
-
-        }
-
+        #region Event
+        /// <summary>
+        /// Tüm İşlemleri Gerçekleştiresini Tetikleyen Event
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        #endregion
+
+        #region Metod
+        /// <summary>
+        /// ProjectView Formundaki ProjectViewList Listesine Ekleme Yapan Metod
+        /// </summary>
+        private void addlist(object sender, CancelEventArgs e)
+        {
+            ProjectViewModel.ProjectViewList.Add(new Project
+            {
+
+                Name = ProjectGetAll.Name
+
+            });
+        }
+        /// <summary>
+        /// Proje Ekleme İşlemini Gerçekleştiren Metod
+        /// </summary>
+        public void SaveProject()
+        {
+            DatabaseHelper.SaveProject(ProjectGetAll);
+            MessageBox.Show("Added..");
+            addProjectView.Close();
+        }
+
+        /// <summary>
+        /// Tüm İşlemlerin Gerçekleşmesini Tetiklenmesini Sağlayan Metod
+        /// </summary>
         protected void NotifyPropertyChanged(string info)
         {
             if (PropertyChanged != null)
@@ -90,7 +143,8 @@ namespace Presantation.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
             }
         }
+        
+        #endregion
 
-       
     }
 }

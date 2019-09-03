@@ -1,4 +1,5 @@
 ﻿using PersonClassLibrary.Models;
+using Presantation.Helper;
 using Presantation.View;
 using Presantation.ViewModel.Commands;
 using System;
@@ -13,83 +14,125 @@ using System.Windows.Input;
 
 namespace Presantation.ViewModel
 {
-    public class AddUserViewModel
+    public class AddUserViewModel : INotifyPropertyChanged
     {
-        private ICommand userCommand;
-        private AddUserView addUserView;
-        public ProjectViewModel ProjectViewModel { get; set; }
+        #region Members
 
-        public AddUserViewModel(AddUserView addUserView )
+        private AddUserView addUserView;
+        private DatabaseHelper databaseHelper;
+        private User userGetAll;
+
+        #endregion
+
+        #region Properties
+
+        public ProjectViewModel ProjectViewModel { get; set; }
+        
+        /// <summary>
+        /// Database İşlemlerini Gerçekleştiren Sınıfı Çağıran Properties
+        /// </summary>
+        public DatabaseHelper DatabaseHelper
+        {
+            get
+            {
+                if (databaseHelper == null)
+                    databaseHelper = new DatabaseHelper();
+                return databaseHelper;
+            }
+
+            set { databaseHelper = value; }
+        }
+
+        /// <summary>
+        /// User Ekleme ve Güncelleme Formundaki Textboxların Verilerini Çeken Properties
+        /// </summary>
+        public User UserGetAll
+        {
+            get
+            {
+                if (userGetAll == null)
+                    userGetAll = new User();
+                return userGetAll;
+            }
+            set
+            {
+                userGetAll = value;
+                NotifyPropertyChanged(nameof(UserGetAll));
+            }
+        }
+
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Sınıf Oluşturulğunda ilk Çalışan Metod
+        /// </summary>
+        public AddUserViewModel(AddUserView addUserView)
         {
             this.addUserView = addUserView;
             addUserView.Closing += addlist;
         }
 
-        private void addlist(object sender, CancelEventArgs e)
-        {
-            ProjectViewModel.UserViewList.Add(new User {
-                username = TbUserUsername,
-                password = TbUserPassword,
-                name = TbUserName
-            });
-        }
+
+        #endregion
+
+        #region ICommand
+
+        /// <summary>
+        /// AddUserView Formunu tetikleyen Command
+        /// </summary>
+        private ICommand userCommand;
+
+        #endregion
+
+        #region Command
 
         public ICommand UserCommand
         {
             get
             {
                 if (userCommand == null)
-                    userCommand = new RelayCommand(SaveUser);
+                    userCommand = new RelayCommand(Save);
                 return userCommand;
             }
         }
 
-        private string username;
-        public string TbUserUsername
-        {
-            get { return username; }
-            set { username = value; NotifyPropertyChanged(nameof(TbUserUsername)); }
-        }
-        
-        private string password;
-        public string TbUserPassword
-        {
-            get { return password; }
-            set { password = value; NotifyPropertyChanged(nameof(TbUserPassword)); }
-        }
+        #endregion
 
-        private string name;
-        public string TbUserName
-        {
-            get { return name; }
-            set { name = value; NotifyPropertyChanged(nameof(TbUserName)); }
-        }
-
-        
-        private void SaveUser()
-        {
-
-            SQLiteConnection sqlitecon;
-            SQLiteCommand sqlitecmd;
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
-
-            sqlitecon = new SQLiteConnection(cs);
-            sqlitecon.Open();
-
-            sqlitecmd = sqlitecon.CreateCommand();
-            sqlitecmd.CommandText = "insert into user (username,password,name) values('" + username + "','" + password + "','" + name + "')";
-            sqlitecmd.ExecuteNonQuery();
-            
-            sqlitecon.Close();
-            MessageBox.Show("Kayıt Eklendi");
-
-
-            addUserView.Close();
-
-
-        }
-
+        #region Event
+        /// <summary>
+        /// Tüm İşlemleri Gerçekleştiresini Tetikleyen Event
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region Metod
+
+        /// <summary>
+        /// ProjectView Formundaki UserViewList Listesine Ekleme Yapan Metod
+        /// </summary>
+        private void addlist(object sender, CancelEventArgs e)
+        {
+            ProjectViewModel.UserViewList.Add(new User
+            {
+                Username = UserGetAll.Username,
+                Password = UserGetAll.Password,
+                Name = UserGetAll.Name
+            });
+        }
+        /// <summary>
+        /// Kullanıcı Ekleme İşlemini Gerçekleştiren Metod
+        /// </summary>
+        public void Save()
+        {
+            DatabaseHelper.SaveUser(UserGetAll);
+            MessageBox.Show("Added..");
+            addUserView.Close();
+        }
+        /// <summary>
+        /// Tüm İşlemlerin Gerçekleşmesini Tetiklenmesini Sağlayan Metod
+        /// </summary>
         protected void NotifyPropertyChanged(string info)
         {
             if (PropertyChanged != null)
@@ -97,5 +140,8 @@ namespace Presantation.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
             }
         }
+
+        #endregion
+
     }
 }
