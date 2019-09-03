@@ -167,9 +167,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\PersonClassLibrary\Data.csproj">
+    <ProjectReference Include="..\Data\Data.csproj">
       <Project>{aafeae1e-0d41-439e-853e-00e5b50eb120}</Project>
       <Name>Data</Name>
     </ProjectReference>

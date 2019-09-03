@@ -1,17 +1,14 @@
-﻿using PersonClassLibrary.Models;
+﻿using Data.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Presantation.Helper
 {
     public class DatabaseHelper
     {
+        public readonly string databasePath = @"Data Source=C:\Users\COMPUTER\Desktop\PersonProject\Data\Database\DBProject.db;Version=3";
         /// <summary>
         /// User Listesini Select Yapıp Liste olarak Döndüren Metod
         /// </summary>
@@ -20,12 +17,9 @@ namespace Presantation.Helper
 
             ObservableCollection<User> ulist = new ObservableCollection<User>();
             User user;
-
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
-
             SQLiteConnection sqlitecon;
             SQLiteCommand sqlitecmd;
-            sqlitecon = new SQLiteConnection(cs);
+            sqlitecon = new SQLiteConnection(databasePath);
             sqlitecon.Open();
 
             sqlitecmd = sqlitecon.CreateCommand();
@@ -57,11 +51,10 @@ namespace Presantation.Helper
             ObservableCollection<Project> plist = new ObservableCollection<Project>();
             Project project;
 
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
 
             SQLiteConnection sqlitecon;
             SQLiteCommand sqlitecmd;
-            sqlitecon = new SQLiteConnection(cs);
+            sqlitecon = new SQLiteConnection(databasePath);
             sqlitecon.Open();
 
             sqlitecmd = sqlitecon.CreateCommand();
@@ -89,11 +82,10 @@ namespace Presantation.Helper
         /// </summary>
         public void UserUpdate(User user)
         {
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
 
             SQLiteConnection sqlitecon;
             SQLiteCommand sqlitecmd;
-            sqlitecon = new SQLiteConnection(cs);
+            sqlitecon = new SQLiteConnection(databasePath);
             sqlitecon.Open();
 
             sqlitecmd = sqlitecon.CreateCommand();
@@ -117,9 +109,8 @@ namespace Presantation.Helper
 
             SQLiteConnection sqlitecon;
             SQLiteCommand sqlitecmd;
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
 
-            sqlitecon = new SQLiteConnection(cs);
+            sqlitecon = new SQLiteConnection(databasePath);
             sqlitecon.Open();
 
             sqlitecmd = sqlitecon.CreateCommand();
@@ -139,9 +130,8 @@ namespace Presantation.Helper
         {
             SQLiteConnection sqlitecon;
             SQLiteCommand sqlitecmd;
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
 
-            sqlitecon = new SQLiteConnection(cs);
+            sqlitecon = new SQLiteConnection(databasePath);
             sqlitecon.Open();
 
             sqlitecmd = sqlitecon.CreateCommand();
@@ -157,11 +147,10 @@ namespace Presantation.Helper
         /// </summary>
         public void ProjectUpdate(Project project)
         {
-            string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
 
             SQLiteConnection sqlitecon;
             SQLiteCommand sqlitecmd;
-            sqlitecon = new SQLiteConnection(cs);
+            sqlitecon = new SQLiteConnection(databasePath);
             sqlitecon.Open();
 
             sqlitecmd = sqlitecon.CreateCommand();
@@ -182,11 +171,10 @@ namespace Presantation.Helper
         public void DeleteUser(User user)
         {
            
-                string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
-
+               
                 SQLiteConnection sqlitecon;
                 SQLiteCommand sqlitecmd;
-                sqlitecon = new SQLiteConnection(cs);
+                sqlitecon = new SQLiteConnection(databasePath);
                 sqlitecon.Open();
 
                 sqlitecmd = sqlitecon.CreateCommand();
@@ -213,11 +201,11 @@ namespace Presantation.Helper
             }
             else
             {
-                string cs = @"Data Source=C:\Users\COMPUTER\Documents\Visual Studio 2017\Projects\PersonProject\PersonClassLibrary\Database\DBProject.db;Version=3";
+               
 
                 SQLiteConnection sqlitecon;
                 SQLiteCommand sqlitecmd;
-                sqlitecon = new SQLiteConnection(cs);
+                sqlitecon = new SQLiteConnection(databasePath);
                 sqlitecon.Open();
 
                 sqlitecmd = sqlitecon.CreateCommand();
