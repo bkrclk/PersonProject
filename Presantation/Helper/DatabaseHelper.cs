@@ -2,13 +2,15 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using System.IO;
 using System.Windows;
 
 namespace Presantation.Helper
 {
     public class DatabaseHelper
     {
-        public readonly string databasePath = @"Data Source=C:\Users\COMPUTER\Desktop\PersonProject\Data\Database\DBProject.db;Version=3";
+        
+        public readonly string databasePath = @"Data Source=" + Path.Combine(Environment.CurrentDirectory, "Database\\DBProject.db;Version=3");
         /// <summary>
         /// User Listesini Select Yapıp Liste olarak Döndüren Metod
         /// </summary>
