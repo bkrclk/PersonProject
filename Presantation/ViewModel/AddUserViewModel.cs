@@ -1,4 +1,5 @@
 ﻿using Data.Models;
+using Microsoft.Win32;
 using Presantation.Helper;
 using Presantation.View;
 using Presantation.ViewModel.Commands;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace Presantation.ViewModel
@@ -71,6 +73,10 @@ namespace Presantation.ViewModel
         {
             this.addUserView = addUserView;
             addUserView.Closing += addlist;
+
+            SelectImageUri = "/Presantation;component/image/profile.png";
+
+
         }
 
 
@@ -82,6 +88,8 @@ namespace Presantation.ViewModel
         /// AddUserView Formunu tetikleyen Command
         /// </summary>
         private ICommand userCommand;
+        private ICommand userImageCommand;
+        
 
         #endregion
 
@@ -96,6 +104,18 @@ namespace Presantation.ViewModel
                 return userCommand;
             }
         }
+
+        public ICommand UserImageCommand
+        {
+            get
+            {
+                if (userImageCommand == null)
+                    userImageCommand = new RelayCommand(GetUserImage);
+                return userImageCommand;
+            }
+        }
+
+      
 
         #endregion
 
@@ -130,6 +150,81 @@ namespace Presantation.ViewModel
             MessageBox.Show("Added..");
             addUserView.Close();
         }
+
+
+
+
+
+
+
+
+
+
+        private string selectImageUri;
+        public string SelectImageUri
+        {
+            get { return selectImageUri; }
+            set
+            {
+                selectImageUri = value;
+                NotifyPropertyChanged(nameof(SelectImageUri));
+            }
+        }
+
+        private string imageName;
+        public string ImageName
+        {
+            get { return imageName; }
+            set
+            {
+                imageName = value;
+                NotifyPropertyChanged(nameof(ImageName));
+            }
+        }
+
+
+
+        public void GetUserImage()
+        {
+            // Create OpenFileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.DefaultExt = ".png";
+            openFileDialog.Filter = "Image documents (.png)|*.png";
+            
+
+
+            if (openFileDialog.ShowDialog()==true)
+            {
+                ImageName = System.IO.Path.GetFileName(openFileDialog.FileName);
+                SelectImageUri = openFileDialog.FileName;
+
+               
+
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Tüm İşlemlerin Gerçekleşmesini Tetiklenmesini Sağlayan Metod
         /// </summary>

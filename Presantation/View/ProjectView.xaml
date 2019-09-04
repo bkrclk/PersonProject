@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presantation.View"
         mc:Ignorable="d"
-        Title="ProjectView" Height="350" Width="700">
+        Title="ProjectView" Height="400" Width="800">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -25,8 +25,8 @@
     </Window.Resources>
     <Grid>
 
-        <Button Content="User Add" Command="{Binding GotoUserView}" HorizontalAlignment="Left" Margin="20,83,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <ListView SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UserViewList}"   HorizontalAlignment="Left" Margin="110,83,0,0" VerticalAlignment="Top" Width="275" Height="136">
+        <Button Content="User Add" Command="{Binding GotoUserView}" HorizontalAlignment="Left" Margin="81,125,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <ListView SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UserViewList}"   HorizontalAlignment="Left" Margin="171,125,0,0" VerticalAlignment="Top" Width="275" Height="144">
             <ListView.View>
                 <GridView>
                     <!--<GridViewColumn Header="id" DisplayMemberBinding="{Binding id}" />-->
@@ -37,9 +37,9 @@
             </ListView.View>
         </ListView>
 
-        <Label Content="" HorizontalAlignment="Left" Margin="20,113,0,0" VerticalAlignment="Top"/>
-        <Button Content="Project Add" Command="{Binding GotoProjectView}" HorizontalAlignment="Left" Margin="420,83,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <ListView SelectedItem="{Binding SelectedProject}" ItemsSource="{Binding ProjectViewList}" HorizontalAlignment="Left" Margin="512,83,0,0" VerticalAlignment="Top" Width="135" Height="136">
+        <Label Content="" HorizontalAlignment="Left" Margin="81,155,0,0" VerticalAlignment="Top"/>
+        <Button Content="Project Add" Command="{Binding GotoProjectView}" HorizontalAlignment="Left" Margin="481,125,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <ListView SelectedItem="{Binding SelectedProject}" ItemsSource="{Binding ProjectViewList}" HorizontalAlignment="Left" Margin="573,125,0,0" VerticalAlignment="Top" Width="135" Height="144">
             <ListView.View>
                 <GridView>
                     <!--<GridViewColumn Header="id" DisplayMemberBinding="{Binding Id}"  Width="Auto"/>-->
@@ -47,13 +47,13 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Delete" Command="{Binding DeleteUserListItem}" HorizontalAlignment="Left" Margin="20,119,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="-0.773,1.933"/>
-        <Button Content="Update" Command="{Binding GetUserListItem}" HorizontalAlignment="Left" Margin="20,154,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <Button Content="Delete" Command="{Binding DeleteUserListItem}" HorizontalAlignment="Left" Margin="81,165,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="-0.773,1.933"/>
+        <Button Content="Update" Command="{Binding GetUserListItem}" HorizontalAlignment="Left" Margin="81,206,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
 
-        <Button Content="Delete" Command="{Binding DeleteProjectListItem}" HorizontalAlignment="Left" Margin="420,119,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="-0.773,1.933"/>
-        <Button Content="Update" Command="{Binding GetProjectListItem}" HorizontalAlignment="Left" Margin="420,154,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        
-        <Label Content="User Actions Form" Background="#009688" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="20,43,0,0" VerticalAlignment="Top" Width="365"/>
-        <Label Content="Project Actions Form" Background="#009688" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="420,43,0,0" VerticalAlignment="Top" Width="227"/>
+        <Button Content="Delete" Command="{Binding DeleteProjectListItem}" HorizontalAlignment="Left" Margin="481,165,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="-0.773,1.933"/>
+        <Button Content="Update" Command="{Binding GetProjectListItem}" HorizontalAlignment="Left" Margin="481,206,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+
+        <Label Content="User Actions Form" Background="#009688" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="81,85,0,0" VerticalAlignment="Top" Width="365"/>
+        <Label Content="Project Actions Form" Background="#009688" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="481,85,0,0" VerticalAlignment="Top" Width="227"/>
     </Grid>
 </Window>

@@ -5,8 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presantation.View"
         mc:Ignorable="d"
-        Title="AddUserView" Height="250" Width="300">
+        Title="AddUserView" Height="450" Width="400">
+
     <Window.Resources>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border"
+                        CornerRadius="8"
+                        BorderBrush="#009688"
+                        BorderThickness="1"
+                        Background="#36bbaf"
+                        >
+                            <ScrollViewer x:Name="PART_ContentHost"
+                            Focusable="false"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Hidden"/>
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#00877a"/>
+                                <Setter Property="Foreground" Value="#009688" />
+
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="true">
+                                <Setter Property="Foreground" Value="#009688" />
+                                <Setter Property="BorderBrush" TargetName="border" Value="#00877a"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
         <Style TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -22,25 +63,115 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Window.Resources>
+
+
     <Grid>
-        <Button Content="Save" HorizontalAlignment="Left" Command="{Binding UserCommand}" Margin="168,157,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding UserGetAll.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="23" Margin="122,73,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding UserGetAll.Password, Mode=TwoWay}" Height="23" Margin="122,101,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding UserGetAll.Name, Mode=TwoWay}" Height="23" Margin="122,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="UserName" TextBlock.Foreground="White"  HorizontalAlignment="Left" Margin="48,70,0,0" VerticalAlignment="Top" Width="92" Height="31"/>
-        <Label Content="Password" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="48,101,0,0" VerticalAlignment="Top" Width="92" Height="31"/>
-        <Label Content="Name" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="48,127,0,0" VerticalAlignment="Top" Width="92" Height="31" RenderTransformOrigin="0.5,0.5">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-1.081"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Label Content="User Add Form" TextBlock.Foreground="White" Background="#009688" HorizontalAlignment="Left" Margin="48,39,0,0" VerticalAlignment="Top" Width="194"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"><!-- resim seçme ve resim ve url -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Ellipse Grid.Row="0" Width="120" Height="120" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 20 0 0">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource= "{Binding SelectImageUri}" Stretch="Fill"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Label Grid.Row="1" Content="{Binding ImageName}" HorizontalAlignment="Center" Margin="0 0 0 10" VerticalAlignment="Top"/>
+            <Button Grid.Row="2" Content="Choose" Command="{Binding UserImageCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="75"/>
+
+        </Grid>
+        <Grid  Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Content="Add User Form" TextBlock.Foreground="White" Background="#36bbaf" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="245" Height="25" BorderBrush="AliceBlue"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="UserName" TextBlock.Foreground="White"  HorizontalAlignment="Right"  VerticalAlignment="Top" Width="120" Height="Auto"/>
+                    <Label Grid.Column="1" Content="Password" TextBlock.Foreground="White" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="120" Height="Auto"/>
+                    
+                </Grid>
+                
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" TextBlock.Foreground="White" HorizontalAlignment="Right" Text="{Binding UserGetAll.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+                    <TextBox Grid.Column="1" TextBlock.Foreground="White" HorizontalAlignment="Left" Text="{Binding UserGetAll.Password, Mode=TwoWay}" Height="Auto" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+                </Grid>
+
+                
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Name" TextBlock.Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="Auto" />
+                    <Label Grid.Column="1" Content="Telephone" TextBlock.Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="Auto" />
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" TextBlock.Foreground="White" HorizontalAlignment="Right" Text="{Binding UserGetAll.Password, Mode=TwoWay}" Height="Auto" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+                    <TextBox Grid.Column="1" TextBlock.Foreground="White" HorizontalAlignment="Left" Text="{Binding UserGetAll.Name, Mode=TwoWay}" Height="Auto"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    
+                </Grid>
+
+
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Content="Save" HorizontalAlignment="Center" Command="{Binding UserCommand}" Margin="0 20 0 0"  VerticalAlignment="Top" Width="75" Height="26"/>
+            </Grid>
+        </Grid>
+
+
+
+
+
+        
+       
+
+
+       
+
+
+        
+        
+        <!--<TextBox TextBlock.Foreground="White" HorizontalAlignment="Left"  Height="23" Margin="199,298,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>-->
+       
 
     </Grid>
+
+
+
 </Window>
