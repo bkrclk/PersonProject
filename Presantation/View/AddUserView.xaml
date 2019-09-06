@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presantation.View"
         mc:Ignorable="d"
-        Title="AddUserView" Height="450" Width="400">
+        Title="AddUserView" Height="450" Width="320">
 
     <Window.Resources>
 
@@ -46,7 +46,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        
 
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -92,11 +92,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+              
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Content="Add User Form" TextBlock.Foreground="White" Background="#36bbaf" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Width="245" Height="25" BorderBrush="AliceBlue"/>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -108,8 +107,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="UserName" TextBlock.Foreground="White"  HorizontalAlignment="Right"  VerticalAlignment="Top" Width="120" Height="Auto"/>
-                    <Label Grid.Column="1" Content="Password" TextBlock.Foreground="White" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="120" Height="Auto"/>
+                    <Label Grid.Column="0" Content="UserName" TextBlock.Foreground="White"  HorizontalAlignment="Right"  VerticalAlignment="Top" Width="140" Height="Auto"/>
+                    <Label Grid.Column="1" Content="Password" TextBlock.Foreground="White" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="140" Height="Auto"/>
                     
                 </Grid>
                 
@@ -118,8 +117,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" TextBlock.Foreground="White" HorizontalAlignment="Right" Text="{Binding UserGetAll.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-                    <TextBox Grid.Column="1" TextBlock.Foreground="White" HorizontalAlignment="Left" Text="{Binding UserGetAll.Password, Mode=TwoWay}" Height="Auto" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+                    <TextBox Grid.Column="0" TextBlock.Foreground="Black" FontWeight="Bold" HorizontalAlignment="Right" Text="{Binding UserGetAll.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   TextWrapping="Wrap"  VerticalAlignment="Top" Width="140" FontSize="14" Height="30"/>
+                    <TextBox Grid.Column="1" TextBlock.Foreground="Black" FontWeight="Bold" HorizontalAlignment="Left" Text="{Binding UserGetAll.Password, Mode=TwoWay}"  TextWrapping="Wrap"  VerticalAlignment="Top" Width="140" FontSize="14" Height="30"/>
                 </Grid>
 
                 
@@ -129,8 +128,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Name" TextBlock.Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="Auto" />
-                    <Label Grid.Column="1" Content="Telephone" TextBlock.Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="Auto" />
+                    <Label Grid.Column="0" Content="Name" TextBlock.Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Top" Width="140" Height="Auto" />
+                    <Label Grid.Column="1" Content="Telephone" TextBlock.Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Height="Auto" />
                 </Grid>
 
                 <Grid Grid.Row="3">
@@ -139,36 +138,20 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Grid.Column="0" TextBlock.Foreground="White" HorizontalAlignment="Right" Text="{Binding UserGetAll.Password, Mode=TwoWay}" Height="Auto" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-                    <TextBox Grid.Column="1" TextBlock.Foreground="White" HorizontalAlignment="Left" Text="{Binding UserGetAll.Name, Mode=TwoWay}" Height="Auto"  TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <TextBox Grid.Column="0" TextBlock.Foreground="Black" FontWeight="Bold" HorizontalAlignment="Right" Text="{Binding UserGetAll.Name, Mode=TwoWay}" TextWrapping="Wrap"  VerticalAlignment="Top" Width="140" FontSize="14" Height="30"/>
+                    <TextBox Grid.Column="1"  TextBlock.Foreground="Black" FontWeight="Bold" HorizontalAlignment="Left" Text="{Binding UserGetAll.Phone, Mode=TwoWay}"  TextWrapping="Wrap" VerticalAlignment="Top" Width="140" FontSize="14" Height="30"/>
                     
                 </Grid>
 
 
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" Content="Save" HorizontalAlignment="Center" Command="{Binding UserCommand}" Margin="0 20 0 0"  VerticalAlignment="Top" Width="75" Height="26"/>
+                <Button Grid.Row="0" Content="Save" HorizontalAlignment="Center" Command="{Binding UserCommand}" Margin="0 20 0 0"  VerticalAlignment="Top" Width="80" Height="30"/>
             </Grid>
         </Grid>
-
-
-
-
-
-        
-       
-
-
-       
-
-
-        
-        
-        <!--<TextBox TextBlock.Foreground="White" HorizontalAlignment="Left"  Height="23" Margin="199,298,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>-->
-       
 
     </Grid>
 

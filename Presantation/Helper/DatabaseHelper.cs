@@ -9,8 +9,8 @@ namespace Presantation.Helper
 {
     public class DatabaseHelper
     {
-        
-        public readonly string databasePath = @"Data Source=" + Path.Combine(Environment.CurrentDirectory, "Database\\DBProject.db;Version=3");
+
+        public readonly string databasePath = @"Data Source=" + Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\Presantation\\Database\\DBProject.db;Version=3";
         /// <summary>
         /// User Listesini Select Yapıp Liste olarak Döndüren Metod
         /// </summary>
@@ -34,7 +34,9 @@ namespace Presantation.Helper
                     Id = Convert.ToInt32(sqlitedr["id"]),
                     Username = sqlitedr["username"].ToString(),
                     Password = sqlitedr["password"].ToString(),
-                    Name = sqlitedr["name"].ToString()
+                    Name = sqlitedr["name"].ToString(),
+                    Phone = sqlitedr["phone"].ToString(),
+                    Base64Image = sqlitedr["base64Image"].ToString()
 
                 };
 
@@ -93,8 +95,8 @@ namespace Presantation.Helper
             sqlitecmd = sqlitecon.CreateCommand();
 
 
-            sqlitecmd.CommandText = "update user set username='" + user.Username + "', password='" + user.Password + "', name='" + user.Name + "' where id ='" + user.Id + "'";
-            SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
+            sqlitecmd.CommandText = "update user set username='" + user.Username + "', password='" + user.Password + "', name='" + user.Name + "' , phone='" + user.Phone + "' , base64Image='" + user.Base64Image + "' where id ='" + user.Id + "'";
+            sqlitecmd.ExecuteNonQuery();
 
 
             sqlitecon.Close();
@@ -116,7 +118,7 @@ namespace Presantation.Helper
             sqlitecon.Open();
 
             sqlitecmd = sqlitecon.CreateCommand();
-            sqlitecmd.CommandText = "insert into user (username,password,name) values('" + user.Username + "','" + user.Password + "','" + user.Name + "')";
+            sqlitecmd.CommandText = "insert into user (username,password,name,phone,base64Image) values('" + user.Username + "','" + user.Password + "','" + user.Name + "','" + user.Phone + "','" + user.Base64Image + "')";
             sqlitecmd.ExecuteNonQuery();
 
             sqlitecon.Close();
@@ -159,7 +161,7 @@ namespace Presantation.Helper
 
 
             sqlitecmd.CommandText = "update project set name='" + project.Name + "' where id ='" + project.Id + "'";
-            SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
+            sqlitecmd.ExecuteNonQuery();
 
 
             sqlitecon.Close();
@@ -172,20 +174,20 @@ namespace Presantation.Helper
         /// </summary>
         public void DeleteUser(User user)
         {
-           
-               
-                SQLiteConnection sqlitecon;
-                SQLiteCommand sqlitecmd;
-                sqlitecon = new SQLiteConnection(databasePath);
-                sqlitecon.Open();
 
-                sqlitecmd = sqlitecon.CreateCommand();
-                sqlitecmd.CommandText = "delete from user where id ='" + user.Id + "'";
-                SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
 
-                sqlitecon.Close();
+            SQLiteConnection sqlitecon;
+            SQLiteCommand sqlitecmd;
+            sqlitecon = new SQLiteConnection(databasePath);
+            sqlitecon.Open();
 
-            
+            sqlitecmd = sqlitecon.CreateCommand();
+            sqlitecmd.CommandText = "delete from user where id ='" + user.Id + "'";
+            sqlitecmd.ExecuteNonQuery();
+
+            sqlitecon.Close();
+
+
 
 
         }
@@ -203,7 +205,7 @@ namespace Presantation.Helper
             }
             else
             {
-               
+
 
                 SQLiteConnection sqlitecon;
                 SQLiteCommand sqlitecmd;
@@ -212,7 +214,7 @@ namespace Presantation.Helper
 
                 sqlitecmd = sqlitecon.CreateCommand();
                 sqlitecmd.CommandText = "delete from project where id ='" + project.Id + "'";
-                SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
+                sqlitecmd.ExecuteNonQuery();
 
 
                 sqlitecon.Close();
@@ -223,7 +225,7 @@ namespace Presantation.Helper
         }
 
 
-       
+
     }
 }
 

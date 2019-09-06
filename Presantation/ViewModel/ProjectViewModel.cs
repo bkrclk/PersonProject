@@ -212,9 +212,8 @@ namespace Presantation.ViewModel
             if (SelectedUser != null)
             {
 
-                using (UpdateUserView updateUserView = new UpdateUserView())
+                using (UpdateUserView updateUserView = new UpdateUserView(SelectedUser))
                 {
-                    updateUserView.updateUserViewModel.UserGetAll = SelectedUser;
                     updateUserView.updateUserViewModel.ProjectViewModel = this;
                     updateUserView.Show();
 

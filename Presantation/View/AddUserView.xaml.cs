@@ -34,5 +34,7 @@ namespace Presantation.View
             GC.Collect();
             GC.SuppressFinalize(this);
         }
+
+        
     }
 }

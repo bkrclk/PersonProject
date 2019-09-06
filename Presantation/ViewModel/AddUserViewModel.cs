@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SQLite;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +47,28 @@ namespace Presantation.ViewModel
             set { databaseHelper = value; }
         }
 
+        private string selectImageUri;
+        public string SelectImageUri
+        {
+            get { return selectImageUri; }
+            set
+            {
+                selectImageUri = value;
+                NotifyPropertyChanged(nameof(SelectImageUri));
+            }
+        }
+
+        private string imageName;
+        public string ImageName
+        {
+            get { return imageName; }
+            set
+            {
+                imageName = value;
+                NotifyPropertyChanged(nameof(ImageName));
+            }
+        }
+
         /// <summary>
         /// User Ekleme ve Güncelleme Formundaki Textboxların Verilerini Çeken Properties
         /// </summary>
@@ -72,7 +96,7 @@ namespace Presantation.ViewModel
         public AddUserViewModel(AddUserView addUserView)
         {
             this.addUserView = addUserView;
-            addUserView.Closing += addlist;
+          
 
             SelectImageUri = "/Presantation;component/image/profile.png";
 
@@ -129,24 +153,34 @@ namespace Presantation.ViewModel
 
         #region Metod
 
-        /// <summary>
-        /// ProjectView Formundaki UserViewList Listesine Ekleme Yapan Metod
-        /// </summary>
-        private void addlist(object sender, CancelEventArgs e)
+         public void AddList()
         {
-            ProjectViewModel.UserViewList.Add(new User
-            {
-                Username = UserGetAll.Username,
-                Password = UserGetAll.Password,
-                Name = UserGetAll.Name
-            });
+            ProjectViewModel.UserViewList.Add(UserGetAll);
         }
+
+
+
+
+        private string Base64ImageConverter(string filepath)
+        {
+
+            byte[] imageArray = System.IO.File.ReadAllBytes(filepath);
+            string base64Image = Convert.ToBase64String(imageArray);
+
+            return base64Image;
+            
+        }
+
+
         /// <summary>
         /// Kullanıcı Ekleme İşlemini Gerçekleştiren Metod
         /// </summary>
         public void Save()
         {
+
+
             DatabaseHelper.SaveUser(UserGetAll);
+            AddList();
             MessageBox.Show("Added..");
             addUserView.Close();
         }
@@ -160,28 +194,7 @@ namespace Presantation.ViewModel
 
 
 
-        private string selectImageUri;
-        public string SelectImageUri
-        {
-            get { return selectImageUri; }
-            set
-            {
-                selectImageUri = value;
-                NotifyPropertyChanged(nameof(SelectImageUri));
-            }
-        }
-
-        private string imageName;
-        public string ImageName
-        {
-            get { return imageName; }
-            set
-            {
-                imageName = value;
-                NotifyPropertyChanged(nameof(ImageName));
-            }
-        }
-
+       
 
 
         public void GetUserImage()
@@ -190,19 +203,18 @@ namespace Presantation.ViewModel
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             openFileDialog.DefaultExt = ".png";
-            openFileDialog.Filter = "Image documents (.png)|*.png";
-            
+            openFileDialog.Filter = "Image Document (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
 
 
             if (openFileDialog.ShowDialog()==true)
             {
                 ImageName = System.IO.Path.GetFileName(openFileDialog.FileName);
                 SelectImageUri = openFileDialog.FileName;
-
+                UserGetAll.Base64Image = Base64ImageConverter(SelectImageUri);
                
-
-
             }
+        
         }
 
 

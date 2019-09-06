@@ -1,4 +1,5 @@
-﻿using Presantation.ViewModel;
+﻿using Data.Models;
+using Presantation.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace Presantation.View
     public partial class UpdateUserView : Window, IDisposable
     {
         public  UpdateUserViewModel updateUserViewModel;
-        public UpdateUserView()
+        public UpdateUserView(User user)
         {
-            updateUserViewModel = new UpdateUserViewModel(this);
+            updateUserViewModel = new UpdateUserViewModel(this,  user);
             InitializeComponent();
 
             this.DataContext = updateUserViewModel;

@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presantation.View"
+        xmlns:converter="clr-namespace:Presantation.Converter"
         mc:Ignorable="d"
-        Title="UpdateUserView" Height="250" Width="300">
+        Title="UpdateUserView" Height="300" Width="600">
     <Window.Resources>
+        <converter:ImageConvert x:Key="ImageConverter" />
         <Style TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -22,24 +24,125 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border"
+                        CornerRadius="8"
+                        BorderBrush="#009688"
+                        BorderThickness="1"
+                        Background="#36bbaf"
+                        >
+                            <ScrollViewer x:Name="PART_ContentHost"
+                            Focusable="false"
+                            HorizontalScrollBarVisibility="Hidden"
+                            VerticalScrollBarVisibility="Hidden"/>
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#00877a"/>
+                                <Setter Property="Foreground" Value="#009688" />
+
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="true">
+                                <Setter Property="Foreground" Value="#009688" />
+                                <Setter Property="BorderBrush" TargetName="border" Value="#00877a"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Window.Resources>
-    <Grid>
-        <Button Content="Update" HorizontalAlignment="Left" Command="{Binding UserUpdateCommand}" Margin="168,157,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding UserGetAll.Username, Mode=TwoWay}" Height="23" Margin="122,73,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding UserGetAll.Password, Mode=TwoWay}" Height="23" Margin="122,101,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding UserGetAll.Name, Mode=TwoWay}" Height="23" Margin="122,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="UserName" TextBlock.Foreground="White"  HorizontalAlignment="Left" Margin="48,70,0,0" VerticalAlignment="Top" Width="92" Height="31"/>
-        <Label Content="Password" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="48,101,0,0" VerticalAlignment="Top" Width="92" Height="31"/>
-        <Label Content="Name" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="48,127,0,0" VerticalAlignment="Top" Width="92" Height="31" RenderTransformOrigin="0.5,0.5">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-1.081"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Label Content="User Update Form" TextBlock.Foreground="White" Background="#009688" HorizontalAlignment="Left" Margin="48,39,0,0" VerticalAlignment="Top" Width="194"/>
+
+
+    <Grid  Margin="0 50 0 0" HorizontalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" HorizontalAlignment="Right">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <Label  Content="UserName" TextBlock.Foreground="White"  HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                    <TextBox  TextBlock.Foreground="#c81e3a" FontWeight="Bold" HorizontalAlignment="Left" Text="{Binding UserGetAll.Username, Mode=TwoWay}" Height="30" TextWrapping="Wrap"  VerticalAlignment="Top" Width="140" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1">
+                    <Label Content="Password" TextBlock.Foreground="White" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                    <TextBox TextBlock.Foreground="#c81e3a" FontWeight="Bold" HorizontalAlignment="Left" Text="{Binding UserGetAll.Password, Mode=TwoWay}" Height="30" TextWrapping="Wrap"  VerticalAlignment="Top" Width="140" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <Label Content="Name" TextBlock.Foreground="White" HorizontalAlignment="Left"  VerticalAlignment="Top"></Label>
+                    <TextBox  TextBlock.Foreground="#c81e3a" FontWeight="Bold" HorizontalAlignment="Left" Text="{Binding UserGetAll.Name, Mode=TwoWay}" Height="30" TextWrapping="Wrap"  VerticalAlignment="Top" Width="140" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="1">
+                    <Label Content="Phone" TextBlock.Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+                    <TextBox TextBlock.Foreground="#c81e3a" FontWeight="Bold" HorizontalAlignment="Left" Text="{Binding UserGetAll.Phone, Mode=TwoWay}" Height="30"  TextWrapping="Wrap" VerticalAlignment="Top" Width="140" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <Button Content="Update" HorizontalAlignment="Left" Command="{Binding UserUpdateCommand}"  VerticalAlignment="Top" Width="75" Margin="0 20 0 0"  Height="30" />
+                </StackPanel>
+
+            </Grid>
+         
+        </Grid>
+
+        <Grid Grid.Column="1" Margin="30 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Ellipse Grid.Row="0" Grid.Column="0" Width="100" Height="100" HorizontalAlignment="Center"  VerticalAlignment="Top" >
+                <Ellipse.Fill>
+                    
+                    <!--<ImageBrush ImageSource= "{Binding SelectImageUri}" Stretch="Fill"/>-->
+                    <ImageBrush ImageSource="{Binding Path=Base64Image, Converter={StaticResource ImageConverter}}" />
+                </Ellipse.Fill>
+            </Ellipse>
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                <Label  Content="{Binding ImageName}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button  Content="Choose" Command="{Binding UserImageCommand}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 0 0 0" Width="80" />
+            </StackPanel>
+
+
+        </Grid>
+
+
+
     </Grid>
+
 </Window>
