@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Presantation.View"
         xmlns:converter="clr-namespace:Presantation.Converter"
         mc:Ignorable="d"
-        Title="UpdateUserView" Height="300" Width="600">
+        Title="User Update Page" Height="300" Width="600">
     <Window.Resources>
         <converter:ImageConvert x:Key="ImageConverter" />
         <Style TargetType="Button">

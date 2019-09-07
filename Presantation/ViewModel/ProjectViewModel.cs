@@ -18,16 +18,22 @@ namespace Presantation.ViewModel
     /// <summary>
     /// Kullanıcı ve Projelerin Listelendiği View Model
     /// </summary>
-    public class ProjectViewModel
+    public class ProjectViewModel : INotifyPropertyChanged
     {
 
         #region Members
 
         private DatabaseHelper databaseHelper;
 
+        private ObservableCollection<User> userViewList;
+
+
         #endregion
 
         #region Properties
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// Database İşlemlerini Gerçekleştiren Sınıfı Çağıran Properties
         /// </summary>
@@ -43,15 +49,46 @@ namespace Presantation.ViewModel
             set { databaseHelper = value; }
         }
 
-        public ObservableCollection<User> UserViewList { get; set; }
+
 
         public User SelectedUser { get; set; }
 
         public Project SelectedProject { get; set; }
 
+        public ObservableCollection<User> UserViewList
+        {
+            get
+            {
+                if (userViewList == null)
+                {
+                    userViewList = new ObservableCollection<User>();
+
+                }
+                return userViewList;
+            }
+            set
+            {
+                userViewList = value;
+                NotifyPropertyChanged(nameof(UserViewList));
+            }
+        }
+        
         public ObservableCollection<Project> ProjectViewList { get; set; }
 
+        private string txtSearch;
+
+        public string TxtSearch
+        {
+            get { return txtSearch; }
+            set
+            {
+                txtSearch = value;
+                NotifyPropertyChanged(nameof(TxtSearch));
+            }
+        }
+
         #endregion
+
 
         #region Constructors
 
@@ -60,8 +97,10 @@ namespace Presantation.ViewModel
         /// </summary>
         public ProjectViewModel()
         {
-            UserViewList = DatabaseHelper.GetUserList();
+
+            UserViewList = DatabaseHelper.GetUserList(TxtSearch);
             ProjectViewList = DatabaseHelper.GetProjectList();
+
         }
 
         #endregion
@@ -72,6 +111,9 @@ namespace Presantation.ViewModel
         /// UserView Formunu tetikleyen Command
         /// </summary>
         private ICommand gotoUserView;
+
+
+        private ICommand getUserSearch;
 
         /// <summary>
         /// ProjectView Formunu tetikleyen Command
@@ -98,9 +140,22 @@ namespace Presantation.ViewModel
         /// </summary>
         private ICommand deleteProjectListItem;
 
+       
         #endregion
 
         #region Commands
+
+
+        public ICommand GetUserSearch
+        {
+            get
+            {
+                if (getUserSearch == null)
+                    getUserSearch = new RelayCommand(UserSearch);
+                return getUserSearch;
+            }
+
+        }
 
         public ICommand GotoUserView
         {
@@ -172,6 +227,11 @@ namespace Presantation.ViewModel
 
         #region Methods
 
+        public void UserSearch()
+        {
+            UserViewList = DatabaseHelper.GetUserList(TxtSearch);
+
+        }
         /// <summary>
         /// Kullanıcı Formunu Getiren Metod
         /// </summary>       
@@ -235,7 +295,7 @@ namespace Presantation.ViewModel
 
             if (SelectedProject != null)
             {
-                
+
                 using (UpdateProjectView updateProjectView = new UpdateProjectView())
                 {
                     updateProjectView.updateProjectViewModel.ProjectGetAll = SelectedProject;
@@ -285,6 +345,15 @@ namespace Presantation.ViewModel
                 MessageBox.Show("Please Select User..");
             }
 
+        }
+
+
+        protected void NotifyPropertyChanged(string info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
 
         #endregion

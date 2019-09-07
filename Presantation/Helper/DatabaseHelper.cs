@@ -11,11 +11,27 @@ namespace Presantation.Helper
     {
 
         public readonly string databasePath = @"Data Source=" + Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\Presantation\\Database\\DBProject.db;Version=3";
+
+        
+           
+
+
         /// <summary>
         /// User Listesini Select Yapıp Liste olarak Döndüren Metod
         /// </summary>
-        public ObservableCollection<User> GetUserList()
+        public ObservableCollection<User> GetUserList(string filter)
         {
+            string conStr;
+
+            if (filter == null)
+            {
+                conStr = "Select * from user";
+            }
+            else
+            {
+                conStr = "Select * from user where name like '%" + filter + "%'";
+            }
+
 
             ObservableCollection<User> ulist = new ObservableCollection<User>();
             User user;
@@ -25,7 +41,7 @@ namespace Presantation.Helper
             sqlitecon.Open();
 
             sqlitecmd = sqlitecon.CreateCommand();
-            sqlitecmd.CommandText = "Select * from user";
+            sqlitecmd.CommandText = conStr;
             SQLiteDataReader sqlitedr = sqlitecmd.ExecuteReader();
             while (sqlitedr.Read())
             {
@@ -47,6 +63,7 @@ namespace Presantation.Helper
             return ulist;
         }
 
+      
         /// <summary>
         /// Project Listesini Select Yapıp Liste olarak Döndüren Metod
         /// </summary>

@@ -6,29 +6,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presantation.View"
         mc:Ignorable="d"
-        Title="ProjectView" Height="500" Width="860">
+        Title="Main Page" Height="500" Width="750">
     <Window.Resources>
-        <converter:ImageConvert x:Key="ImageConverter" />
-        <Style TargetType="Button">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="#009688" BorderThickness="0">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="7" Direction="330" Color="Black" ShadowDepth="4" Opacity="0.3"></DropShadowEffect>
-                            </Border.Effect>
-                            <ContentPresenter x:Name="cp" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="White"></ContentPresenter>
-                        </Border>
 
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <converter:ImageConvert x:Key="ImageConverter" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ViewStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
 
-        <Button Content="User Add" Command="{Binding GotoUserView}" HorizontalAlignment="Left" Margin="36,88,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <ListView SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UserViewList}"   HorizontalAlignment="Left" Margin="36,136,0,0" VerticalAlignment="Top" Width="474" Height="242">
+        <Button Content="User Add" Command="{Binding GotoUserView}" Style="{StaticResource BtnStyle}" HorizontalAlignment="Left" Margin="7,77,0,0" VerticalAlignment="Top" Width="74" Height="30"/>
+        <ListView SelectedItem="{Binding SelectedUser}" FontSize="14" Background="#9addd7" ItemsSource="{Binding UserViewList}"   HorizontalAlignment="Left" Margin="7,125,0,0" VerticalAlignment="Top" Width="478" Height="210">
             <ListView.View>
                 <GridView>
                     <!--<GridViewColumn Header="id" DisplayMemberBinding="{Binding id}" />-->
@@ -53,25 +46,26 @@
             </ListView.View>
         </ListView>
 
-        <Label Content="" HorizontalAlignment="Left" Margin="-8,109,0,0" VerticalAlignment="Top"/>
-        <Button Content="Project Add" Command="{Binding GotoProjectView}" HorizontalAlignment="Left" Margin="574,90,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
-        <ListView SelectedItem="{Binding SelectedProject}" ItemsSource="{Binding ProjectViewList}" HorizontalAlignment="Left" Margin="574,136,0,0" VerticalAlignment="Top" Width="235" Height="165">
+        <Label Content="" HorizontalAlignment="Left" Margin="-15,98,0,0" VerticalAlignment="Top"/>
+        <Button Content="Project Add" Style="{StaticResource BtnStyle}" Command="{Binding GotoProjectView}" HorizontalAlignment="Left" Margin="490,78,0,0" VerticalAlignment="Top" Width="80" Height="30"/>
+        <ListView SelectedItem="{Binding SelectedProject}" ItemsSource="{Binding ProjectViewList}" FontSize="14" Background="#9addd7" HorizontalAlignment="Left" Margin="490,125,0,0" VerticalAlignment="Top" Width="240" Height="210">
             <ListView.View>
                 <GridView>
                     <!--<GridViewColumn Header="id" DisplayMemberBinding="{Binding Id}"  Width="Auto"/>-->
-                    <GridViewColumn Header="PROJECT NAME" DisplayMemberBinding="{Binding Name}"  Width="100" />
+                    <GridViewColumn Header="PROJECT NAME" DisplayMemberBinding="{Binding Name}"  Width="180"  />
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Delete" Command="{Binding DeleteUserListItem}" HorizontalAlignment="Left" Margin="116,89,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="-0.773,1.933"/>
-        <Button Content="Update" Command="{Binding GetUserListItem}" HorizontalAlignment="Left" Margin="196,89,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="0.027,0.7"/>
+        <Button Content="Delete" Style="{StaticResource BtnStyle}" Command="{Binding DeleteUserListItem}" HorizontalAlignment="Left" Margin="87,78,0,0" VerticalAlignment="Top" Width="74" Height="30" RenderTransformOrigin="-0.773,1.933"/>
+        <Button Content="Update" Style="{StaticResource BtnStyle}" Command="{Binding GetUserListItem}" HorizontalAlignment="Left" Margin="167,78,0,0" VerticalAlignment="Top" Width="74" Height="30" RenderTransformOrigin="0.027,0.7"/>
 
-        <Button Content="Delete" Command="{Binding DeleteProjectListItem}" HorizontalAlignment="Left" Margin="654,90,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="-0.773,1.933"/>
-        <Button Content="Update" Command="{Binding GetProjectListItem}" HorizontalAlignment="Left" Margin="734,90,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <Button Content="Delete" Style="{StaticResource BtnStyle}" Command="{Binding DeleteProjectListItem}" HorizontalAlignment="Left" Margin="575,78,0,0" VerticalAlignment="Top" Width="75" Height="30" RenderTransformOrigin="-0.773,1.933"/>
+        <Button Content="Update" Style="{StaticResource BtnStyle}" Command="{Binding GetProjectListItem}" HorizontalAlignment="Left" Margin="655,78,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
 
-        <Label Content="User Actions Form" Background="#009688" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="36,48,0,0" VerticalAlignment="Top" Width="474"/>
-        <Label Content="Project Actions Form" Background="#009688" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="574,48,0,0" VerticalAlignment="Top" Width="235"/>
-        <TextBox HorizontalAlignment="Left" Height="30" FontSize="14" FontWeight="Bold" Margin="276,90,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="149"/>
-        <Button Content="User Search" HorizontalAlignment="Left" Height="30" Margin="430,89,0,0" VerticalAlignment="Top" Width="80"/>
+        <Label Content="User Actions Form" Background="#009688" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="7,37,0,0" VerticalAlignment="Top" Width="474"/>
+        <Label Content="Project Actions Form" Background="#009688" TextBlock.Foreground="White" HorizontalAlignment="Left" Margin="490,37,0,0" VerticalAlignment="Top" Width="240"/>
+        <TextBox HorizontalAlignment="Left" Style="{StaticResource TxtStyle}" Text="{Binding TxtSearch}" TextBlock.Foreground="White" Height="30" FontSize="14" FontWeight="Bold" Margin="250,78,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150"/>
+        <Button Content="User Search" Style="{StaticResource BtnStyle}" Command="{Binding GetUserSearch}" HorizontalAlignment="Left" Height="30" Margin="405,78,0,0" VerticalAlignment="Top" Width="76"/>
+
     </Grid>
 </Window>
