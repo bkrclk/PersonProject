@@ -11,7 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace Presantation.ViewModel
 {
@@ -336,9 +338,15 @@ namespace Presantation.ViewModel
         {
             if (SelectedUser != null)
             {
-                DatabaseHelper.DeleteUser(SelectedUser);
-                MessageBox.Show("Deleted..");
-                UserViewList.Remove(SelectedUser);
+                DialogResult myResult;
+                myResult = MessageBox.Show("Are you really delete the User?", "Delete Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (myResult == DialogResult.OK)
+                {
+                    DatabaseHelper.DeleteUser(SelectedUser);
+                    MessageBox.Show("Deleted..");
+                    UserViewList.Remove(SelectedUser);
+                }
+                
             }
             else
             {

@@ -12,16 +12,17 @@ namespace Presantation.Converter
 {
     public class ImageConvert : IValueConverter
     {
-      
-            public readonly string defaultImage =Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\Presantation\\image\\profile.png";
+
+        public readonly string defaultImage = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\Presantation\\image\\profile.png";
         /// <summary>
         /// Gelen Datayı Convert eder
         /// </summary>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (string.IsNullOrEmpty(value.ToString()))
+            //if (value == null || value.ToString() == string.Empty)
+            if (string.IsNullOrEmpty(value?.ToString()))
             {
-                
+
                 var byteBuffer = File.ReadAllBytes(defaultImage);
 
                 var bitmapImage = new BitmapImage();
